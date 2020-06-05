@@ -11,7 +11,7 @@ SECRET_KEY_BASE=secret
 RELATIVE_URL_ROOT=lti
 
 # LTI tools configuration
-DEFAULT_LTI_TOOL=tool
+#DEFAULT_LTI_TOOL=rooms
 
 # Consumer key
 CONSUMER_KEY=key
@@ -23,5 +23,16 @@ CONSUMER_SECRET=secret
 
 #WHITELIST_HOST=broker.example.com
 
-# RAILS_LOG_TO_STDOUT=true
-# RAILS_SERVE_STATIC_FILES=true
+#URL_HOST=lti.blindside-dev.com
+
+## Use DATABASE_URL when using a postgres outside the pre-packaged with docker-compose
+DATABASE_URL=postgres://postgres:password@localhost
+
+# Only needed for Docker Compose.
+## Change DOCKER_REPO when using a repo other than bigbluebutton
+#DOCKER_REPO=your_repo
+## Change DOCKER_TAG when using a tag other than latest
+#DOCKER_TAG=local
+
+RAILS_LOG_TO_STDOUT=true
+RAILS_SERVE_STATIC_FILES=true

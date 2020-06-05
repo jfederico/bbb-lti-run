@@ -20,22 +20,13 @@ services:
       - NGINX_HOSTNAME=${HOST_NAME:-lti.xlab.blindside-dev.com}
     depends_on:
       - broker
-#      - rooms
+      - rooms
     command: /bin/bash -c "envsubst '$$NGINX_HOSTNAME' < /etc/nginx/sites-available/sites.template > /etc/nginx/sites-enabled/sites.conf && exec nginx -g 'daemon off;'"
     logging:
       driver: journald
 
-## Configuration for Letsencrypt SSL Certificate
-## comment out when using an SSL Certificate from a CA other than Letsencrypt
-#  certbot:
-#    image: certbot/certbot
-#    volumes:
-#      - ./data/certbot/conf:/etc/letsencrypt
-#      - ./data/certbot/www:/var/www/certbot
-#    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-
   postgres:
-    image: postgres:11-alpine
+    image: postgres:9.5-alpine
     container_name: postgres
     environment:
       POSTGRES_PASSWORD: password
