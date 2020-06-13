@@ -40,9 +40,11 @@ services:
   broker:
     image: ${DOCKER_REPO:-bigbluebutton}/bbb-lti-broker:${DOCKER_TAG:-latest}
     container_name: broker
+    volumes:
+      - ./broker/seeds.rb:/usr/src/app/db/seeds.rb
     env_file: broker/.env
     environment:
-      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:password@postgres:5432}/broker_production
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:password@postgres:5432}/bbb_lti_broker_production
     ports:
       - "3001:3000"
     links:
@@ -55,7 +57,7 @@ services:
     container_name: rooms
     env_file: rooms/.env
     environment:
-      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:password@postgres:5432}/rooms_production
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:password@postgres:5432}/bbb_lti_rooms_production
     ports:
       - "3002:3000"
     links:

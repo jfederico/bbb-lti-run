@@ -1,4 +1,5 @@
-HOST_NAME=lti.xlab.blindside-dev.com
+## Configure the hostname using your own domain
+## HOST_NAME=lti.<JOHN>.blindside-dev.com
 
 ## Use DATABASE_URL when using a postgres outside the pre-packaged with docker-compose
 ## DATABASE_URL=postgres://myuser:mypass@localhost
