@@ -11,18 +11,31 @@ upstream docker-rooms {
 server {
     server_name $NGINX_HOSTNAME;
 
-    listen 80;
+    listen  80;
     listen [::]:80;
-    listen 443 ssl;
-    listen [::]:443;
 
-    ## Configuration for Letsencrypt SSL Certificate
-    ssl_certificate /etc/letsencrypt/live/$NGINX_HOSTNAME/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$NGINX_HOSTNAME/privkey.pem;
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+
+    location / {
+        return  301 https://$host$request_uri;
+    }
+}
+
+server {
+    server_name $NGINX_HOSTNAME;
+
+    listen 443 ssl;
+    listen [::]:443 ssl;
 
     ## Configuration for SSL Certificate from a CA other than Letsencrypt
     #ssl_certificate /etc/ssl/fullchain.pem;
     #ssl_certificate_key /etc/ssl/privkey.pem;
+
+    ## Configuration for Letsencrypt SSL Certificate
+    ssl_certificate /etc/letsencrypt/live/$NGINX_HOSTNAME/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$NGINX_HOSTNAME/privkey.pem;
 
     location /apps/rooms {
         proxy_pass  http://docker-rooms;

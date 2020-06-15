@@ -1,11 +1,10 @@
-## Configure the hostname using your own domain
+## Set the hostname using your own domain (Required)
 ## HOST_NAME=lti.<JOHN>.blindside-dev.com
 
-## Use DATABASE_URL when using a postgres outside the pre-packaged with docker-compose
+## Use only with postgres instance outside the one pre-packaged with docker-compose (Optional)
 ## DATABASE_URL=postgres://myuser:mypass@localhost
 
-# Only needed for Docker Compose.
-## Change DOCKER_REPO when using a repo other than bigbluebutton
+## Use with a repo other than the default "bigbluebutton" (Optional)
 ## DOCKER_REPO=my-repo
-## Change DOCKER_TAG when using a tag other than latest
+## Use with a tag other than the default "latest" (Optional)
 ## DOCKER_TAG=my-tag

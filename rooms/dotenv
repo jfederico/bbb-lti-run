@@ -1,20 +1,39 @@
-## App configuration
+## Secret configuration (Required)
+# Create a Secret Key for Rails
+#
+# You can generate a secure one through the Greenlight docker image
+# with the command.
+#
+#   docker run --rm bigbluebutton/bbb-app-rooms:latest bundle exec rake secret
 SECRET_KEY_BASE=secret
 
+## The relative root (Required for now)
 RELATIVE_URL_ROOT=apps
 
-# BigBlueButton configuration
+## BigBlueButton configuration (Required)
 BIGBLUEBUTTON_ENDPOINT=http://test-install.blindsidenetworks.com/bigbluebutton/
 BIGBLUEBUTTON_SECRET=8cd8ef52e8e101574e400365b55e11a6
 BIGBLUEBUTTON_MODERATOR_ROLES=Instructor,Faculty,Teacher,Mentor,Administrator,Admin
 
-# BigBlueButton LTI Broker configuration
-OMNIAUTH_BBBLTIBROKER_SITE=https://lti.jesus.blindside-dev.com
+## BigBlueButton LTI Broker configuration (Required)
+#  Should match the values set up for the broker URL_HOST and RELATIVE_URL_ROOT
+OMNIAUTH_BBBLTIBROKER_SITE=https://lti.<JOHN>.blindside-dev.com
 OMNIAUTH_BBBLTIBROKER_ROOT=lti
+#  Should match the values used when adding the app to the broker.
+#    rake db:apps:add[rooms,b21211c29d27,3590e00d7ebd,https://lti.<JOHN>.blindside-dev.com/apps/rooms/auth/bbbltibroker/callback]
 OMNIAUTH_BBBLTIBROKER_KEY=b21211c29d27
 OMNIAUTH_BBBLTIBROKER_SECRET=3590e00d7ebd
 
 #WHITELIST_HOST=broker.example.com
 
-RAILS_LOG_TO_STDOUT=true
+## Set the hostname using your own domain (Required)
+#URL_HOST=lti.<JOHN>.blindside-dev.com
+
+## Use to send logs to Standard Output (Optional)
+#RAILS_LOG_TO_STDOUT=true
+
+## Use to serve assets through the app (Required for now)
 RAILS_SERVE_STATIC_FILES=true
+
+## Use to enable features only available for development (Optional)
+#RAILS_ENV=development

@@ -1,38 +1,33 @@
+## Secret configuration (Required)
 # Create a Secret Key for Rails
 #
 # You can generate a secure one through the Greenlight docker image
 # with the command.
 #
-#   docker run --rm bigbluebutton/greenlight:v2 bundle exec rake secret
-#
+#   docker run --rm bigbluebutton/bbb-lti-broker:latest bundle exec rake secret
 SECRET_KEY_BASE=secret
 
 # App configuration
 RELATIVE_URL_ROOT=lti
 
 # LTI tools configuration
-#DEFAULT_LTI_TOOL=rooms
-
-# Consumer key
-CONSUMER_KEY=key
-
-# Consumer Secret
-CONSUMER_SECRET=secret
+#DEFAULT_LTI_TOOL=default
 
 #DEVELOPER_MODE_ENABLED=true
 
 #WHITELIST_HOST=broker.example.com
 
-#URL_HOST=lti.blindside-dev.com
+## Set the hostname using your own domain (Required)
+#URL_HOST=lti.<JOHN>.blindside-dev.com
 
-## Use DATABASE_URL when using a postgres outside the pre-packaged with docker-compose
+## Use only with postgres instance outside the one pre-packaged with docker-compose (Optional)
 DATABASE_URL=postgres://postgres:password@localhost
 
-# Only needed for Docker Compose.
-## Change DOCKER_REPO when using a repo other than bigbluebutton
-#DOCKER_REPO=your_repo
-## Change DOCKER_TAG when using a tag other than latest
-#DOCKER_TAG=local
-
+## Use to send logs to Standard Output (Optional)
 RAILS_LOG_TO_STDOUT=true
+
+## Use to serve assets through the app (Required for now)
 RAILS_SERVE_STATIC_FILES=true
+
+## Use to enable features only available for development (Optional)
+#RAILS_ENV=development

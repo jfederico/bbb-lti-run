@@ -45,21 +45,46 @@ will have to wait 6 hours for the changes to be propagated. Normally good for pr
 
 ## Steps
 
-Clone this repository:
+### Preliminary
+
+* Clone this repository:
 
 ```
 git clone git@github.com:blindsidenetworks/bbb-lti-run.git
 cd bbb-lti-run
 ```
 
-Edit the `.env` file located in the root of the project
+* Edit the `.env` file located in the root of the project
 
 ```
 cp dotenv .env
 vi .env
 ```
 
-You will normally only need to replace the hostname
+You will normally only need to replace `HOST_NAME`.
+
+* Edit the `broker/.env` file and replace the following default values.
+
+```
+cp broker/dotenv broker/.env
+vi .env
+```
+
+
+SECRET_KEY_BASE is the Ruby On Rails secret key and must be replaced with a random one. You can generate a suitable secret using `openssl rand -hex 32`.
+
+LOADBALANCER_SECRET is the shared secret used by external applications for accessing Scalelite (to these applications Scalelite appears as a BigBlueButton server so it needs to have a shared secret). You can generate a suitable secret using openssl rand -hex 24.
+
+* Edit the `rooms/.env` file and replace the following default values.
+
+```
+cp rooms/dotenv rooms/.env
+vi .env
+```
+
+
+
+### SSL Certificate
 
 Create your own SSL Letsencrypt certificates. As you are normally going to
 have this deployment running on your own computer (or in a private VM), you
