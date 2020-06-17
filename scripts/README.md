@@ -12,5 +12,5 @@ sudo systemctl enable bbb-lti-auto-deployer.service
 sudo systemctl enable bbb-lti-auto-deployer.timer
 sudo systemctl start bbb-lti-auto-deployer.timer
 sudo systemctl enable bbb-lti-run.service
-sudo systemctl start bbb-lti-run.timer
+sudo systemctl start bbb-lti-run.service
 ```
