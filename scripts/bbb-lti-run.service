@@ -1,0 +1,17 @@
+[Unit]
+Description=BBB LTI Run
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+WorkingDirectory=/home/ubuntu/bbb-lti-run
+ExecStart=/usr/local/bin/docker-compose up -d --remove-orphans
+ExecStop=/usr/local/bin/docker-compose down
+;ExecStart=/bin/bash /usr/local/bin/bbb-lti-start
+;ExecStop=/bin/bash /usr/local/bin/bbb-lti-stop
+
+[Install]
+WantedBy=bbb-lti.target
+WantedBy=multi-user.target

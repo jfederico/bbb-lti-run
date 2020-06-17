@@ -1,0 +1,10 @@
+[Unit]
+Description=BBB LTI (Broker / Rooms) Auto Deployer
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/bin/bash /usr/local/bin/bbb-lti-deploy
+
+[Install]
+WantedBy=bbb-lti.target

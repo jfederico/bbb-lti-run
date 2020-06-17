@@ -82,14 +82,21 @@ cp rooms/dotenv rooms/.env
 vi .env
 ```
 
+### Generating LetsEncrypt SSL Certificate Manually Automatically
+
+For using a SSL certificate signed by Let’s Encrypt, generate the certificates simply execute the command:
+
+```
+./init-letsencrypt.sh
+```
 
 
-### SSL Certificate
+### Generating LetsEncrypt SSL Certificate Manually
 
-Create your own SSL Letsencrypt certificates. As you are normally going to
+Create your own SSL Letsencrypt certificates. If you are going to
 have this deployment running on your own computer (or in a private VM), you
-need to generate the SSL certificates with certbot by adding the challenge to
-your DNS.
+need to generate the SSL certificates with certbot manually by adding the
+challenge to your DNS.
 
 Install letsencrypt in your own computer
 
@@ -132,11 +139,11 @@ Press Enter to Continue
 ```
 
 Create a TXT record in your DNS for
-`_acme-challenge.gl.<JOHN>.blindside-dev.com` with the challenge string as
+`_acme-challenge.lti.<JOHN>.blindside-dev.com` with the challenge string as
 its value `2dxWYkcETHnimmQmCL0MCbhneRNxMEMo9yjk6P_17kE`
 
-Copy the certificates to your greenlight-multitenant directory. Although `/etc/letsencrypt/live/`
-holds the latest certificate, they are only symbolic links. The real files must be copied and renamed
+Copy the certificates to your bbb-lti-run directory. Although `/etc/letsencrypt/live/`
+holds the latest certificate, they are only symbolic links. The real files must be copied too.
 
 ```
 cp -R /etc/letsencrypt/archive/lti.<JOHN>.blindside-dev.com <YOUR ROOT>/bbb-lti-run/data/certbot/conf/archive
