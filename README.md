@@ -73,7 +73,6 @@ vi .env
 
 SECRET_KEY_BASE is the Ruby On Rails secret key and must be replaced with a random one. You can generate a suitable secret using `openssl rand -hex 32`.
 
-LOADBALANCER_SECRET is the shared secret used by external applications for accessing Scalelite (to these applications Scalelite appears as a BigBlueButton server so it needs to have a shared secret). You can generate a suitable secret using openssl rand -hex 24.
 
 * Edit the `rooms/.env` file and replace the following default values.
 
@@ -81,6 +80,19 @@ LOADBALANCER_SECRET is the shared secret used by external applications for acces
 cp rooms/dotenv rooms/.env
 vi .env
 ```
+
+SECRET_KEY_BASE is the Ruby On Rails secret key and must be replaced with a random one. You can generate a suitable secret using `openssl rand -hex 32`.
+
+RELATIVE_URL_ROOT is the relative root for Rooms, it is required as is (for now), and it is by default set to `apps`
+
+BIGBLUEBUTTON_ENDPOINT  the BigBlueButton Endpoint to the server linked to this application.
+BIGBLUEBUTTON_SECRET=8cd8ef52e8e101574e400365b55e11a6 the BigBlueButton Secret.
+BIGBLUEBUTTON_MODERATOR_ROLES=Instructor,Faculty,Teacher,Mentor,Administrator,Admin
+
+OMNIAUTH_BBBLTIBROKER_SITE Should match the values set up for the broker URL_HOST
+OMNIAUTH_BBBLTIBROKER_ROOT Should match the values set up for the broker RELATIVE_URL_ROOT
+OMNIAUTH_BBBLTIBROKER_KEY and OMNIAUTH_BBBLTIBROKER_SECRET Should match the values used when adding the app to the broker.
+
 
 ### Generating LetsEncrypt SSL Certificate Manually Automatically
 
@@ -114,7 +126,7 @@ sudo -i
 Start creating the certificates
 
 ```
-certbot certonly --manual -d lti.<JOHN>.blindside-dev.com -d --agree-tos --no-bootstrap --manual-public-ip-logging-ok --preferred-challenges=dns --email hostmaster@blindsdie-dev.com --server https://acme-v02.api.letsencrypt.org/directory
+certbot certonly --manual -d lti.<JOHN>.blindside-dev.com --agree-tos --no-bootstrap --manual-public-ip-logging-ok --preferred-challenges=dns --email hostmaster@blindsdie-dev.com --server https://acme-v02.api.letsencrypt.org/directory
 ```
 
 You will see something like this
@@ -146,6 +158,8 @@ Copy the certificates to your bbb-lti-run directory. Although `/etc/letsencrypt/
 holds the latest certificate, they are only symbolic links. The real files must be copied too.
 
 ```
+mkdir -p data/certbot/conf/archive
+mkdir -p data/certbot/conf/live
 cp -R /etc/letsencrypt/archive/lti.<JOHN>.blindside-dev.com <YOUR ROOT>/bbb-lti-run/data/certbot/conf/archive
 cp -R /etc/letsencrypt/live/lti.<JOHN>.blindside-dev.com <YOUR ROOT>/bbb-lti-run/data/certbot/conf/live
 ```
@@ -172,6 +186,33 @@ https://lti.<JOHN>.blindside-dev.com/apps/rooms
 
 
 ## Exceptions
+
+### LTI applications must be manually added to the broker
+
+There are some rake tasks that can be used for managing applications and keys in
+the BBB LTI broker.
+
+```
+docker exec -t broker bundle exec rake --tasks
+docker exec -t broker bundle exec rake db:keys:show
+docker exec -t broker bundle exec rake db:keys:add[key1,secret1]
+docker exec -t broker bundle exec rake db:apps:show
+docker exec -t broker bundle exec rake db:apps:add[rooms,b21211c29d27,3590e00d7ebd,https://lti.<JOHN>.blindside-dev.com/apps/rooms/auth/bbbltibroker/callback]
+```
+
+Although, for seeding the application with initial values, the files
+
+it can also be executed:
+
+```
+docker exec -t broker bundle exec rake db:seed
+```
+
+For this, the values used for OMNIAUTH_BBBLTIBROKER_KEY and OMNIAUTH_BBBLTIBROKER_SECRET should match the values in the seed for uid and secret respectively.
+
+```
+vi broker/seeds.rb
+```
 
 ### The DOMAINNAME is updated after the application starts
 It is important to note that if the DOMAINNAME is updated after the
@@ -202,12 +243,3 @@ docker exec -t broker DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:s
 
 It may be necessary to interrupt docker-compose and execute a
 `docker-compose down` and then `docker-compose up` to clean up what is left
-
-
-```
-docker exec -t broker bundle exec rake --tasks
-docker exec -t broker bundle exec rake db:keys:show
-docker exec -t broker bundle exec rake db:keys:add[key1,secret1]
-docker exec -t broker bundle exec rake db:apps:show
-docker exec -t broker bundle exec rake db:apps:add[rooms,b21211c29d27,3590e00d7ebd,https://lti.<JOHN>.blindside-dev.com/apps/rooms/auth/bbbltibroker/callback]
-```
