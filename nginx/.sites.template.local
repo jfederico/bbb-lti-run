@@ -1,61 +1,5 @@
 #### For <$NGINX_HOSTNAME>
 
-#upstream docker-broker {
-#    server broker:3000;
-#}
-
-#upstream docker-rooms {
-#    server rooms:3000;
-#}
-
-#server {
-#    server_name $NGINX_HOSTNAME;
-#
-#    listen 80;
-#    listen [::]:80;
-#
-#    location /.well-known/acme-challenge/ {
-#        root /var/www/certbot;
-#    }
-#
-#    location / {
-#        return 301 https://$host$request_uri;
-#    }
-#}
-
-server {
-  server_name gl.jesus.123it.ca;
-
-  listen 80;
-  listen [::]:80;
-  listen 443 ssl;
-  listen [::]:443;
-
-  ## Configuration for Letsencrypt SSL Certificate
-  ssl_certificate /etc/letsencrypt/live/gl.jesus.123it.ca/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/gl.jesus.123it.ca/privkey.pem;
-
-  location / {
-      proxy_pass  http://10.0.0.160:3001;
-
-      proxy_read_timeout 60s;
-      proxy_redirect off;
-
-      proxy_set_header  Host $http_host;
-
-      proxy_set_header  X-Real-IP $remote_addr;
-      proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header  X-Forwarded-Proto $scheme;
-#      proxy_headers_hash_max_size 512;
-#      proxy_headers_hash_bucket_size 128;
-#      proxy_set_header  X-Forwarded-Proto $http_x_forwarded_proto;
-
-      proxy_http_version 1.1;
-      proxy_set_header Upgrade $http_upgrade;
-      proxy_set_header Connection "upgrade";
-  }
-}
-
 server {
     server_name $NGINX_HOSTNAME;
 
@@ -90,9 +34,7 @@ server {
         proxy_set_header Connection "upgrade";
     }
 
-
     location /apps/rooms {
-#        proxy_pass  http://docker-rooms;
         proxy_pass  http://10.0.0.160:3012;
 
         proxy_read_timeout 60s;
@@ -104,10 +46,6 @@ server {
         proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
 
         proxy_set_header  X-Forwarded-Proto $scheme;
-#        proxy_headers_hash_max_size 512;
-#        proxy_headers_hash_bucket_size 128;
-#        proxy_set_header  X-Forwarded-Proto $http_x_forwarded_proto;
-
 
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
@@ -115,7 +53,6 @@ server {
     }
 
     location / {
-#        proxy_pass  http://docker-broker;
         proxy_pass  http://10.0.0.160:3011;
 
         proxy_read_timeout 60s;
@@ -127,9 +64,6 @@ server {
         proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
 
         proxy_set_header  X-Forwarded-Proto $scheme;
-#        proxy_headers_hash_max_size 512;
-#        proxy_headers_hash_bucket_size 128;
-#        proxy_set_header  X-Forwarded-Proto $http_x_forwarded_proto;
 
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
