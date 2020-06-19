@@ -42,7 +42,7 @@ services:
     volumes:
       - ./data/postgres/:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     logging:
       driver: journald
 
@@ -56,7 +56,7 @@ services:
     environment:
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:password@postgres:5432}/bbb_lti_broker_production
     ports:
-      - "3001:3000"
+      - "127.0.0.1:3001:3000"
     links:
       - postgres
     logging:
@@ -70,7 +70,7 @@ services:
     environment:
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:password@postgres:5432}/bbb_lti_rooms_production
     ports:
-      - "3002:3000"
+      - "127.0.0.1:3002:3000"
     links:
       - postgres
     logging:

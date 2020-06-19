@@ -18,10 +18,10 @@ RELATIVE_URL_ROOT=lti
 #WHITELIST_HOST=broker.example.com
 
 ## Set the hostname using your own domain (Required)
-#URL_HOST=lti.<JOHN>.blindside-dev.com
+# URL_HOST=lti.<JOHN>.blindside-dev.com
 
 ## Use only with postgres instance outside the one pre-packaged with docker-compose (Optional)
-DATABASE_URL=postgres://postgres:password@localhost
+# DATABASE_URL=postgres://postgres:password@localhost
 
 ## Use to send logs to Standard Output (Optional)
 RAILS_LOG_TO_STDOUT=true
