@@ -94,13 +94,15 @@ OMNIAUTH_BBBLTIBROKER_ROOT Should match the values set up for the broker RELATIV
 OMNIAUTH_BBBLTIBROKER_KEY and OMNIAUTH_BBBLTIBROKER_SECRET Should match the values used when adding the app to the broker.
 
 
-### Generating LetsEncrypt SSL Certificate Manually Automatically
+### Generating LetsEncrypt SSL Certificate Automatically
 
 For using a SSL certificate signed by Let’s Encrypt, generate the certificates simply execute the command:
 
 ```
 ./init-letsencrypt.sh
 ```
+
+Note that for the automatic method to work, the server where you are installing the certificate must be publicly available to the Internet.
 
 
 ### Generating LetsEncrypt SSL Certificate Manually
@@ -194,9 +196,9 @@ the BBB LTI broker.
 
 ```
 docker exec -t broker bundle exec rake --tasks
-docker exec -t broker bundle exec rake db:keys:show
+docker exec -t broker bundle exec rake db:keys:showall
 docker exec -t broker bundle exec rake db:keys:add[key1,secret1]
-docker exec -t broker bundle exec rake db:apps:show
+docker exec -t broker bundle exec rake db:apps:showall
 docker exec -t broker bundle exec rake db:apps:add[rooms,b21211c29d27,3590e00d7ebd,https://lti.<JOHN>.blindside-dev.com/apps/rooms/auth/bbbltibroker/callback]
 ```
 
