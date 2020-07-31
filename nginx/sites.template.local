@@ -1,44 +1,23 @@
 #### For <$NGINX_HOSTNAME>
 
-upstream docker-broker {
-    server broker:3000;
-}
-
-upstream docker-rooms {
-    server rooms:3000;
-}
-
 server {
     server_name $NGINX_HOSTNAME;
 
-    listen  80;
+    listen 80;
     listen [::]:80;
-
-    location /.well-known/acme-challenge/ {
-        root /var/www/certbot;
-    }
-
-    location / {
-        return  301 https://$host$request_uri;
-    }
-}
-
-server {
-    server_name $NGINX_HOSTNAME;
-
     listen 443 ssl;
-    listen [::]:443 ssl;
-
-    ## Configuration for SSL Certificate from a CA other than Letsencrypt
-    #ssl_certificate /etc/ssl/fullchain.pem;
-    #ssl_certificate_key /etc/ssl/privkey.pem;
+    listen [::]:443;
 
     ## Configuration for Letsencrypt SSL Certificate
     ssl_certificate /etc/letsencrypt/live/$NGINX_HOSTNAME/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/$NGINX_HOSTNAME/privkey.pem;
 
+    ## Configuration for SSL Certificate from a CA other than Letsencrypt
+    #ssl_certificate /etc/ssl/fullchain.pem;
+    #ssl_certificate_key /etc/ssl/privkey.pem;
+
     location /apps/rooms {
-        proxy_pass  http://docker-rooms;
+        proxy_pass  http://10.0.0.160:3012;
 
         proxy_read_timeout 60s;
         proxy_redirect off;
@@ -56,7 +35,7 @@ server {
     }
 
     location / {
-        proxy_pass  http://docker-broker;
+        proxy_pass  http://10.0.0.160:3011;
 
         proxy_read_timeout 60s;
         proxy_redirect off;
@@ -72,4 +51,5 @@ server {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
     }
+
 }

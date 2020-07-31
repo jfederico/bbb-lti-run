@@ -61,7 +61,8 @@ cp dotenv .env
 vi .env
 ```
 
-You will normally only need to replace `HOST_NAME`.
+You will normally only need to replace `HOST_NAME` as this defines the endpoint for the deployment. However there are a few more variables that can be used when using this script as a
+[setup for development](#setup-for-development).
 
 * Edit the `broker/.env` file and replace the following default values.
 
@@ -69,7 +70,6 @@ You will normally only need to replace `HOST_NAME`.
 cp broker/dotenv broker/.env
 vi .env
 ```
-
 
 SECRET_KEY_BASE is the Ruby On Rails secret key and must be replaced with a random one. You can generate a suitable secret using `openssl rand -hex 32`.
 
@@ -92,6 +92,32 @@ BIGBLUEBUTTON_MODERATOR_ROLES=Instructor,Faculty,Teacher,Mentor,Administrator,Ad
 OMNIAUTH_BBBLTIBROKER_SITE Should match the values set up for the broker URL_HOST
 OMNIAUTH_BBBLTIBROKER_ROOT Should match the values set up for the broker RELATIVE_URL_ROOT
 OMNIAUTH_BBBLTIBROKER_KEY and OMNIAUTH_BBBLTIBROKER_SECRET Should match the values used when adding the app to the broker.
+
+#### Setup for Development
+
+- Proxying towards docker images or applications running locally
+
+It is possible to proxy towards applications locally running through `rails s -b 0.0.0.0 -p 3011` for bbb-lti-broker and `rails s -b 0.0.0.0 -p 3012` for bbb-app-rooms. This is achieved by defining which one of the two site templates for nginx included is to be used. The environment variable for that is `SITES_TEMPLATE` which by default is set to docker, meaning that the running docker images will be used.
+
+For using the applications running locally set the variable to local `SITES_TEMPLATE=local`
+
+- Using a different docker image
+
+It is also possible to use different images. This is useful when testing the build locally. In such case the variables `DOCKER_REPO` and `DOCKER_TAG` come handy. Thet are pre-set for using `bigbluebutton/bbb-lti-broker:latest` and `bigbluebutton/bbb-app-rooms:latest` which are pulled from DockerHub.
+
+When using your own DockerHub repository, which may be automatically updated by TravisCI if it is properly configured, you can set `DOCKER_REPO=<YOUR_REPO>`. And also you can choose the tag which in this case is the same as the branch name in GitHub as `DOCKER_TAG=<YOUR_GITHUB_BRANCH>`.
+
+For using an image built locally, first build the images.
+
+```
+cd ~/<YOUR_DEV_DIRECTORY/bbb-lti-broker
+docker build -t <YOUR_REPO>/bbb-lti-broker:local --build-arg BUILD_NUMBER="$(git branch --show-current) ($(git rev-parse --short HEAD))" .
+cd ~/<YOUR_DEV_DIRECTORY/bbb-app-rooms
+docker build -t <YOUR_REPO>/bbb-app-rooms:local --build-arg BUILD_NUMBER="$(git branch --show-current) ($(git rev-parse --short HEAD))" .
+```
+And set the variables to the corresponding values: `DOCKER_REPO=<YOUR_REPO>` and `DOCKER_TAG=local`
+
+An important note here is that the `DOCKER_TAG` must be the same for both images (bbb-lti-broker and bbb-app-rooms).
 
 
 ### Generating LetsEncrypt SSL Certificate Automatically
