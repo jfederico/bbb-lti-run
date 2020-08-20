@@ -23,7 +23,7 @@ default_tools = [
     name: 'default',
     uid: 'key',
     secret: 'secret',
-    redirect_uri: 'http://localhost:3000/apps/default/auth/bbbltibroker/callback',
+    redirect_uri: "http://#{Rails.configuration.url_host}/apps/default/auth/bbbltibroker/callback",
     scopes: 'api'
   },
   {
