@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DockerComposeRoot=/home/jesus/Workspaces/bbb-lti-run
+DockerComposeRoot="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )/.."
 
 set -o allexport; source $DockerComposeRoot/.env; set +o allexport
 
