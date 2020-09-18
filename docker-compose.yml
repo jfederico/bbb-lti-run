@@ -52,6 +52,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./broker/seeds.rb:/usr/src/app/db/seeds.rb
+      - ./data/log/broker:/usr/src/app/log
     env_file: broker/.env
     environment:
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:password@postgres:5432}/bbb_lti_broker_production
@@ -66,6 +67,8 @@ services:
     image: ${DOCKER_REPO:-bigbluebutton}/bbb-app-rooms:${DOCKER_TAG:-latest}
     container_name: rooms
     restart: unless-stopped
+    volumes:
+      - ./data/log/rooms:/usr/src/app/log
     env_file: rooms/.env
     environment:
       DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:password@postgres:5432}/bbb_lti_rooms_production
