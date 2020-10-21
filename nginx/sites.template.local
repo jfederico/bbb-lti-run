@@ -17,9 +17,9 @@ server {
     #ssl_certificate_key /etc/ssl/privkey.pem;
 
     location /apps/rooms {
-        proxy_pass  http://10.0.0.160:3012;
+        proxy_pass  http://$NGINX_HOSTNAME:3012;
 
-        proxy_read_timeout 60s;
+        proxy_read_timeout 86400;
         proxy_redirect off;
 
         proxy_set_header  Host $http_host;
@@ -35,9 +35,9 @@ server {
     }
 
     location / {
-        proxy_pass  http://10.0.0.160:3011;
+        proxy_pass  http://$NGINX_HOSTNAME:3011;
 
-        proxy_read_timeout 60s;
+        proxy_read_timeout 86400;
         proxy_redirect off;
 
         proxy_set_header  Host $http_host;

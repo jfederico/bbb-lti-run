@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+tenant = RailsLti2Provider::Tenant.find_or_create_by!(uid: '')
+
 default_keys = [
   {
     key: 'key',
@@ -14,7 +16,7 @@ default_keys = [
 default_keys.each do |default_key|
   puts default_key[:key]
   unless RailsLti2Provider::Tool.find_by_uuid(default_key[:key])
-    RailsLti2Provider::Tool.create!(uuid: default_key[:key], shared_secret: default_key[:secret], lti_version: 'LTI-1p0', tool_settings: 'none')
+    RailsLti2Provider::Tool.create!(uuid: default_key[:key], shared_secret: default_key[:secret], lti_version: 'LTI-1p0', tool_settings: 'none', tenant: tenant)
   end
 end
 
@@ -23,7 +25,7 @@ default_tools = [
     name: 'default',
     uid: 'key',
     secret: 'secret',
-    redirect_uri: "http://#{Rails.configuration.url_host}/apps/default/auth/bbbltibroker/callback",
+    redirect_uri: "https://#{Rails.configuration.url_host}/apps/default/auth/bbbltibroker/callback",
     scopes: 'api'
   },
   {
