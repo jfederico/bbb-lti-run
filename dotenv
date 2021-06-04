@@ -10,4 +10,4 @@
 ## DOCKER_TAG=my-tag
 
 ## Site Template to be used by the nginx as a proxy (Optional)
-## SITES_TEMPLATE=<docker>|local
+## DOCKER_PROXY_NGINX_TEMPLATE=<docker>|local

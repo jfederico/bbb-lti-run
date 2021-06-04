@@ -21,14 +21,14 @@ RELATIVE_URL_ROOT=apps
 ## BigBlueButton LTI Broker configuration
 # For assing new applications in the broker run:
 # rake db:apps:add[name,redirect_uri,uid,secret,root] as in
-# rake db:apps:add[rooms,https://lti.jesus.blindside-dev.com/apps/rooms/auth/bbbltibroker/callback,b21211c29d27,3590e00d7ebd]
+# rake db:apps:add[rooms,https://lti.<JOHN>.blindside-dev.com/apps/rooms/auth/bbbltibroker/callback,b21211c29d27,3590e00d7ebd]
 # OMNIAUTH_BBBLTIBROKER_SITE=http://localhost
 # OMNIAUTH_BBBLTIBROKER_ROOT=lti
 # OMNIAUTH_BBBLTIBROKER_KEY=b21211c29d27
 # OMNIAUTH_BBBLTIBROKER_SECRET=3590e00d7ebd
 
 ## Set the hostname using your own domain (Required)
-URL_HOST=lti.jesus.blindside-dev.com
+# URL_HOST=lti.<JOHN>.blindside-dev.com
 
 ## Use only with postgres instance outside the one pre-packaged with docker-compose (Optional)
 # DATABASE_URL=postgres://postgres:password@localhost
