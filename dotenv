@@ -1,13 +1,13 @@
 ## Set the hostname using your own domain (Required)
-## HOST_NAME=lti.<JOHN>.blindside-dev.com
+# HOST_NAME=lti.<JOHN>.blindside-dev.com
 
 ## Use only with postgres instance outside the one pre-packaged with docker-compose (Optional)
-## DATABASE_URL=postgres://myuser:mypass@localhost
+# DATABASE_URL=postgres://myuser:mypass@localhost:5432/database_name
 
 ## Use with a repo other than the default "bigbluebutton" (Optional)
-## DOCKER_REPO=my-repo
+# DOCKER_REPO=my-repo
 ## Use with a tag other than the default "latest" (Optional)
-## DOCKER_TAG=my-tag
+# DOCKER_TAG=my-tag
 
 ## Site Template to be used by the nginx as a proxy (Optional)
-## DOCKER_PROXY_NGINX_TEMPLATE=<docker>|local
+# DOCKER_PROXY_NGINX_TEMPLATE=<docker>|local

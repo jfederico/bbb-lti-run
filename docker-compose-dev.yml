@@ -50,10 +50,12 @@ services:
     restart: unless-stopped
     volumes:
       - ./broker/seeds.rb:/usr/src/app/db/seeds.rb
-      - ./data/log/broker:/usr/src/app/log
+      - ./data/log/broker/production.log:/usr/src/app/log/production.log
+      - ./broker/src/app/:/usr/src/app/
     env_file: broker/.env
     environment:
-      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:password@postgres:5432}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:password@postgres:5432}/bbb_lti_broker_production
+      DEVELOPER_MODE_ENABLED: "true"
       RAILS_LOG_TO_STDOUT: ${RAILS_LOG_TO_STDOUT:-false}
     links:
       - postgres
@@ -67,10 +69,12 @@ services:
     container_name: rooms
     restart: unless-stopped
     volumes:
-      - ./data/log/rooms:/usr/src/app/log
+      - ./data/log/rooms/production.log:/usr/src/app/log/production.log
+      - ./rooms/src/app/:/usr/src/app/
     env_file: rooms/.env
     environment:
-      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:password@postgres:5432}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:password@postgres:5432}/bbb_lti_rooms_production
+      DEVELOPER_MODE_ENABLED: "true"
       RAILS_LOG_TO_STDOUT: ${RAILS_LOG_TO_STDOUT:-false}
     links:
       - postgres
